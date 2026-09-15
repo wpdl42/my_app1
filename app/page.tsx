@@ -1,6 +1,6 @@
-import { Counter } from "@/components/counter";
-import Image from "next/image";
-import Link from "next/link";
+import { Counter } from "@/components/counter"
+import Image from "next/image"
+import Link from "next/link"
 
 export default function Home() {
   return (
@@ -20,7 +20,13 @@ export default function Home() {
         >
           /about 페이지로 이동 →
         </Link>
+        <Link
+          href="/products"
+          className="text-sm font-medium text-zinc-950 underline underline-offset-4 dark:text-zinc-50"
+        >
+          /products 페이지로 이동 →
+        </Link>
       </main>
     </div>
-  );
+  )
 }

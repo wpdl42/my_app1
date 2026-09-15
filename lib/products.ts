@@ -20,7 +20,7 @@ function delay(ms: number) {
 }
 
 export async function getProducts(): Promise<Product[]> {
-  await delay(1000)
+  await delay(700)
   return products
 }
 
