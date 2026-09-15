@@ -10,7 +10,7 @@ export default function Home() {
           Server Component
         </span>
         <h1 className="text-3xl font-semibold tracking-tight text-black dark:text-zinc-50">
-          웹서버보안프로그래밍
+          웹서버보안프로그래밍 - 장주민
         </h1>
         <Counter />
         <br />
