@@ -6,7 +6,7 @@ export default async function NoticesPage() {
 
   return (
     <div className="mx-auto max-w-2xl flex-1 px-8 py-16">
-      <div className="md-8 flex item-center justify-between">
+      <div className="mb-8 flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">
           공지사항
         </h1>
