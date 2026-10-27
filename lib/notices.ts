@@ -5,26 +5,32 @@ import { connectDB } from "./mongodb"
 export type Notice = {
   id: string
   title: string
-  author: string
+  //author: string
   content: string
   createdAt: string
+  authorId: string
+  authorName: string
 }
 
 type NoticeDocLike = {
   _id: unknown
   title: string
-  author: string
+  //author: string
   content: string
   createdAt: Date
+  authorId: string
+  authorName: string
 }
 
 function toNotice(doc: NoticeDocLike): Notice {
   return {
     id: String(doc._id),
     title: doc.title,
-    author: doc.author,
+    //author: doc.author,
     content: doc.content,
     createdAt: (doc.createdAt ?? new Date()).toISOString().slice(0, 10),
+    authorId: String(doc.authorId),
+    authorName: doc.authorName,
   }
 }
 
@@ -111,8 +117,10 @@ export async function getNotice(id: string): Promise<Notice | undefined> {
 
 export async function createNotice(input: {
   title: string
-  author: string
+  // author: string
   content: string
+  authorId: string
+  authorName: string
 }): Promise<Notice> {
   await connectDB()
   const doc = await NoticeModel.create(input)
