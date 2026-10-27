@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache" //이건
 import { likeProduct as likeProductInDb } from "@/lib/products" //요고는
 import { redirect } from "next/navigation"
-import { createNotice, getNotice } from "./notices"
+import { createNotice, deleteNotice, getNotice } from "./notices"
 import { createUser } from "./users"
 import { auth, signIn, signOut } from "@/auth"
 import { AuthError } from "next-auth"
@@ -20,6 +20,7 @@ export async function createNoticeAction(formDate: FormData) {
   if (!session?.user) {
     redirect("/login")
   }
+
   const title = String(formDate.get("title") ?? "").trim()
   //const author = String(formDate.get("author") ?? "").trim()
   const content = String(formDate.get("content") ?? "").trim()
@@ -95,7 +96,4 @@ export async function loginAction(formData: FormData) {
 
 export async function logoutAction() {
   await signOut({ redirectTo: "/" })
-}
-function deleteNotice(id: string) {
-  throw new Error("Function not implemented.")
 }

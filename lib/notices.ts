@@ -34,55 +34,6 @@ function toNotice(doc: NoticeDocLike): Notice {
   }
 }
 
-async function seedIfEmpty() {
-  const count = await NoticeModel.countDocuments()
-  if (count > 0) return
-
-  await NoticeModel.insertMany([
-    {
-      title: "Sample Notice",
-      author: "John Doe",
-      content: "This is a sample notice.",
-    },
-    {
-      title: "Another Notice",
-      author: "Jane Smith",
-      content: "This is another sample notice.",
-    },
-    {
-      title: "Third Notice",
-      author: "Alice Johnson",
-      content: "This is the third sample notice.",
-    },
-  ])
-}
-
-// const notices: Notice[] = [
-//   {
-//     id: "1",
-//     title: "Sample Notice",
-//     author: "John Doe",
-//     content: "This is a sample notice.",
-//     createdAt: "2026-01-01T00:00:00Z",
-//   },
-//   {
-//     id: "2",
-//     title: "Another Notice",
-//     author: "Jane Smith",
-//     content: "This is another sample notice.",
-//     createdAt: "2026-01-02T00:00:00Z",
-//   },
-//   {
-//     id: "3",
-//     title: "Third Notice",
-//     author: "Alice Johnson",
-//     content: "This is the third sample notice.",
-//     createdAt: "2026-01-03T00:00:00Z",
-//   },
-// ]
-
-// let nextId = 4
-
 //__ const ___ = _적으면 nextId가 4로 고정되어서 새로운 공지사항을 추가할 때마다 id가 4로 고정됨. 그래서 let으로 바꿔서 새로운 공지사항이 추가될 때마다 id가 증가하도록 함.
 
 // function delay(ms: number) {
@@ -92,8 +43,6 @@ async function seedIfEmpty() {
 
 export async function getNotices(): Promise<Notice[]> {
   await connectDB()
-  // await seedIfEmpty()
-
   const docs = await NoticeModel.find().sort({ createdAt: -1 }).lean()
   return docs.map((doc) => toNotice(doc as NoticeDocLike))
 
@@ -125,15 +74,9 @@ export async function createNotice(input: {
   await connectDB()
   const doc = await NoticeModel.create(input)
   return toNotice(doc)
+}
 
-  // await delay(300)
-  // const notice: Notice = {
-  //   id: String(nextId++),
-  //   title: input.title,
-  //   author: input.author,
-  //   content: input.content,
-  //   createdAt: new Date().toISOString().slice(0, 10),
-  //}
-  // notices.push(notice)
-  // return notice
+export async function deleteNotice(id: string): Promise<void> {
+  await connectDB()
+  await NoticeModel.findByIdAndDelete(id)
 }
