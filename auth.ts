@@ -12,14 +12,6 @@ import { authConfig } from "./auth.config"
 // Server Component / Server Action / Route Handler처럼 Node.js 런타임에서
 // 실행되는 곳에서만 import합니다 — 미들웨어(Edge Runtime)에서는 이 파일이
 // 아니라 auth.config.ts를 직접 씁니다 (proxy.ts 참고).
-type UserDocLike = {
-  _id: unknown
-  name: string
-  email: string
-  passwordHash: string
-  role?: "user" | "admin"
-}
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   providers: [
