@@ -82,7 +82,7 @@ async function seedIfEmpty() {
   }
 }
 
-export async function getProducts(): Promise<Product[]> {
+export async function getProducts(q: string | undefined): Promise<Product[]> {
   await connectDB()
   await seedIfEmpty()
   const docs = await ProductModel.find()
@@ -119,4 +119,27 @@ export async function getProductsByIds(ids: string[]): Promise<Product[]> {
 export async function decrementStock(productId: string, qty: number) {
   await connectDB()
   await ProductModel.updateOne({ _id: productId }, { $inc: { stock: -qty } })
+}
+function escapeRegExp(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+}
+
+export async function searchProducts(rawQuery: unknown): Promise<Product[]> {
+  await connectDB()
+  await seedIfEmpty()
+
+  // 타입부터 검증합니다 — searchParams는 URL에서 오는 값이라 항상
+  // 문자열이지만, 이 함수를 다른 곳(예: API 라우트)에서도 재사용할 걸
+  // 대비해 한 번 더 확인합니다.
+  if (typeof rawQuery !== "string" || rawQuery.trim() === "") {
+    return getProducts()
+  }
+
+  const safePattern = escapeRegExp(rawQuery.trim())
+  const docs = await ProductModel.find({
+    name: { $regex: safePattern, $options: "i" },
+  })
+    .sort({ createdAt: 1 })
+    .lean<ProductDoc[]>()
+  return docs.map(toProduct)
 }

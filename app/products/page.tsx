@@ -2,13 +2,16 @@ import Link from "next/link"
 import { getProducts } from "@/lib/products"
 import { addToCartAction } from "@/lib/actions"
 
+type Props = { searchParams: Promise<{ q?: string }> }
+
 // Server Component에서 바로 await로 데이터를 가져올 수 있습니다.
 // 이 함수가 끝날 때까지 Next.js는 같은 폴더의 loading.tsx를 대신 보여줍니다.
 //
 // 4주차에 in-memory로 흉내냈던 상품 목록을, 10주차부터는 실제 MongoDB
 // 컬렉션(lib/products.ts)으로 관리합니다.
-export default async function ProductsPage() {
-  const products = await getProducts()
+export default async function ProductsPage({ searchParams }: Props) {
+  const { q } = await searchParams
+  const products = await getProducts(q)
 
   return (
     <div className="mx-auto max-w-2xl flex-1 px-8 py-16">
