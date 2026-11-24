@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { getProducts } from "@/lib/products"
+import { searchProducts } from "@/lib/products"
 import { addToCartAction } from "@/lib/actions"
 
 type Props = { searchParams: Promise<{ q?: string }> }
@@ -11,7 +11,7 @@ type Props = { searchParams: Promise<{ q?: string }> }
 // 컬렉션(lib/products.ts)으로 관리합니다.
 export default async function ProductsPage({ searchParams }: Props) {
   const { q } = await searchParams
-  const products = await getProducts(q)
+  const products = await searchProducts(q)
 
   return (
     <div className="mx-auto max-w-2xl flex-1 px-8 py-16">

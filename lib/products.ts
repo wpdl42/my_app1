@@ -82,7 +82,7 @@ async function seedIfEmpty() {
   }
 }
 
-export async function getProducts(q: string | undefined): Promise<Product[]> {
+export async function getProducts(): Promise<Product[]> {
   await connectDB()
   await seedIfEmpty()
   const docs = await ProductModel.find()
